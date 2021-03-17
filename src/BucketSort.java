@@ -1,7 +1,10 @@
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class BucketSort {
 
     public static int[] sort(int[] data){
-
+        bucketSort(data);
         return data;
     }
 
@@ -19,12 +22,36 @@ public class BucketSort {
                 max = value;
             }
         }
+        //获取桶的个数、创建桶
+        int bucketCount = (max - min) / data.length + 1;
+        ArrayList<ArrayList<Integer>> buckets = new ArrayList<>(bucketCount);
+        for (int i = 0; i < bucketCount; i++){
+            buckets.add(new ArrayList<>());
+        }
 
-        https://www.runoob.com/w3cnote/bucket-sort.html
+        //把数据分配到桶里
+        for (int i = 0; i < data.length; i++){
+            int num = (data[i] - min) / data.length;
+            buckets.get(num).add(data[i]);
+        }
 
+        //对每个桶排序整合。
+        int index = 0;
+        for (ArrayList<Integer> bucket : buckets){
+            if(bucket == null || bucket.size() == 0)
+                continue;
+            Collections.sort(bucket);
+            for (int num : bucket){
+                data[index++] = num;
+            }
+        }
     }
 
     public static void main(String[] args) {
-
+        int[] data = sort(new int[]{3,6,5,9,7,8});
+        for (int a:data){
+            System.out.print(a + " ");
+        }
+        System.out.println();
     }
 }
